@@ -5,7 +5,7 @@ export type ICar = {
   brand: string;
   model: string;
   year: number;
-  category: 'Sedan' | 'SUV' | 'Truck' | 'Coupe' | 'Convertible';
+  category: 'Sedan' | 'SUV' | 'Truck' | 'Coupe' | 'Convertible' | 'Hatchback';
   description: string;
   stock: number;
 };

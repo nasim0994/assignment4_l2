@@ -31,7 +31,7 @@ const carSchema = new Schema<ICar>(
     category: {
       type: String,
       required: true,
-      enum: ['Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible'],
+      enum: ['Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible', 'Hatchback'],
     },
     description: {
       type: String,

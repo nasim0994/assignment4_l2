@@ -97,3 +97,19 @@ body {
   font-size: 15px;
   margin-top: 3px;
 }
+
+.grayscale {
+  --tw-grayscale: grayscale(100%);
+}
+
+.feature_category_card {
+  @apply flex items-center justify-center rounded-lg bg-gray-100 p-4 text-center text-neutral duration-300 hover:text-primary font-medium;
+}
+
+.feature_category_card img {
+  transition: all 0.3s ease;
+}
+
+.feature_category_card:hover .grayscale {
+  --tw-grayscale: grayscale(0%);
+}
