@@ -29,10 +29,10 @@ class QueryBuilder<T> {
 
   // Filter by author or other fields
   filter() {
-    const { author } = this.query;
+    const { category } = this.query;
 
-    if (author) {
-      this.modelQuery = this.modelQuery.find({ author });
+    if (category) {
+      this.modelQuery = this.modelQuery.find({ category });
     }
 
     return this;

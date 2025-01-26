@@ -19,8 +19,7 @@ export const createCarController = catchAsync(async (req, res) => {
 });
 
 export const getAllCarController = catchAsync(async (req, res) => {
-  const { searchTerm } = req.query;
-  const result = await getAllCarService(searchTerm as string);
+  const result = await getAllCarService(req.query);
 
   res.status(200).json({
     success: true,

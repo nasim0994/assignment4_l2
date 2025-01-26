@@ -1,3 +1,4 @@
+import QueryBuilder from '../../builders/QueryBuilder';
 import { ICar } from './carInterface';
 import { CarModel } from './carModel';
 
@@ -6,22 +7,16 @@ export const createCarService = async (data: ICar) => {
   return result;
 };
 
-export const getAllCarService = async (searchTerm: string) => {
-  let query = {};
+export const getAllCarService = async (query: Record<string, unknown>) => {
+  const carQuery = new QueryBuilder(CarModel.find(), query)
+    .search(['name'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  if (searchTerm) {
-    const regex = new RegExp(`^${searchTerm}$`, 'i');
-    query = {
-      $or: [
-        { category: { $regex: regex } },
-        { brand: { $regex: regex } },
-        { model: { $regex: regex } },
-      ],
-    };
-  }
-
-  const cars = await CarModel.find(query);
-  return cars;
+  const result = await carQuery.modelQuery;
+  return result;
 };
 
 export const getCarByIdService = async (id: string) => {
