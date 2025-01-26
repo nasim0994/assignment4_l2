@@ -7,6 +7,5 @@ export type ICar = {
   year: number;
   category: 'Sedan' | 'SUV' | 'Truck' | 'Coupe' | 'Convertible';
   description: string;
-  quantity: number;
-  inStock: boolean;
+  stock: number;
 };

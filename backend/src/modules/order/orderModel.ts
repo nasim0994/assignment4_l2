@@ -1,47 +1,79 @@
 import mongoose, { Schema } from 'mongoose';
-import { IOrder } from './orderInterface';
-import validator from 'validator';
+import { ICars, IOrder, IPayment, IShippingInfo } from './orderInterface';
+
+// Car Schema
+const carSchema = new Schema<ICars>({
+  car: {
+    type: Schema.Types.ObjectId,
+    ref: 'CarModel',
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+});
+
+// Shipping Info Schema
+const shippingInfoSchema = new Schema<IShippingInfo>({
+  address: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  note: {
+    type: String,
+    default: '',
+  },
+});
+
+// Payment Schema
+const paymentSchema = new Schema<IPayment>({
+  method: {
+    type: String,
+    required: true,
+  },
+  transactionId: {
+    type: String,
+    default: null,
+  },
+});
 
 const orderSchema = new Schema<IOrder>(
   {
-    email: {
-      type: String,
-      required: [true, 'Email is required'],
-      validate: {
-        validator: (value: string) => validator.isEmail(value),
-        message: '{VALUE} Please provide a valid email address',
-      },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
-    car: {
-      type: String,
-      required: [true, 'Car ID is required'],
-      validate: {
-        validator: (value: string) => mongoose.Types.ObjectId.isValid(value),
-        message: 'Invalid car ID',
-      },
-    },
-    quantity: {
-      type: Number,
-      required: [true, 'Quantity is required'],
-      min: [1, 'Quantity must be at least 1'],
-      validate: {
-        validator: (value: number) => Number.isInteger(value),
-        message: '{VALUE} Quantity must be an integer',
-      },
+    cars: {
+      type: [carSchema],
+      required: true,
     },
     totalPrice: {
       type: Number,
-      required: [true, 'Total price is required'],
-      min: [0, 'Total price must be greater than 0'],
-      validate: {
-        validator: (value: number) => value >= 0,
-        message: '{VALUE} Total price must be a positive number',
-      },
+      required: true,
+      min: 0,
+    },
+    shippingInfo: {
+      type: shippingInfoSchema,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'],
+      default: 'pending',
+    },
+    payment: {
+      type: paymentSchema,
+      required: true,
     },
   },
   { timestamps: true },
 );
 
-const Order = mongoose.model<IOrder>('Order', orderSchema);
-
-export default Order;
+export const Order = mongoose.model<IOrder>('Order', orderSchema);

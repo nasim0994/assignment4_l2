@@ -11,11 +11,7 @@ export const carValidation = z.object({
     message: 'Invalid category',
   }),
   description: z.string().nonempty({ message: 'Description is required' }),
-  quantity: z
-    .number()
-    .int()
-    .min(0, { message: 'Quantity must be 0 or greater' }),
-  inStock: z.boolean().optional(),
+  stock: z.number().int().min(0, { message: 'Quantity must be 0 or greater' }),
 });
 
 export const updateCarValidation = carValidation.partial();
