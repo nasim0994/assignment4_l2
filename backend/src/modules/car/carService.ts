@@ -15,8 +15,13 @@ export const getAllCarService = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
-  const result = await carQuery.modelQuery;
-  return result;
+  const meta = await carQuery.countTotal();
+  const data = await carQuery.modelQuery;
+
+  return {
+    meta,
+    data,
+  };
 };
 
 export const getCarByIdService = async (id: string) => {

@@ -17,7 +17,7 @@ Router.post(
   verifyValidate(carValidation),
   createCarController,
 );
-Router.get('/all', auth('admin', 'user'), getAllCarController);
+Router.get('/all', getAllCarController);
 Router.get('/:id', getCarByIdController);
 Router.delete('/delete/:id', auth('admin'), deleteCarController);
 Router.put(

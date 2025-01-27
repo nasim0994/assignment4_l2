@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { AiOutlineCar } from "react-icons/ai";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BsCart4 } from "react-icons/bs";
 
@@ -12,9 +13,9 @@ const adminSidebarItems: ISidebarItem[] = [
     path: "/admin/dashboard",
   },
   {
-    icon: <BsCart4 />,
-    title: "Product",
-    path: "/admin/product/all",
+    icon: <AiOutlineCar />,
+    title: "Car",
+    path: "/admin/car/all",
   },
   {
     icon: <BsCart4 />,

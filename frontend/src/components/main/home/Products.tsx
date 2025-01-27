@@ -1,9 +1,10 @@
 import { useGetAllCarsQuery } from "@/redux/features/carApi";
 import ProductCard from "../ProductCard/ProductCard";
+import { ICar } from "@/interface/carInterface";
 
 export default function Products() {
   const { data, error, isLoading } = useGetAllCarsQuery({});
-  const cars = data?.data;
+  const cars: ICar[] = data?.data;
 
   let content = null;
   if (isLoading) {

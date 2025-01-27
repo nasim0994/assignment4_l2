@@ -1,6 +1,7 @@
+import { IProductCardProps } from "@/interface/carInterface";
 import { Link } from "react-router-dom";
 
-export default function ProductCard({ car }) {
+export default function ProductCard({ car }: IProductCardProps) {
   return (
     <div className="group relative flex h-full flex-col items-center justify-between gap-1 rounded-xl bg-base-100 px-2 py-4 text-center shadow-lg duration-300">
       <Link

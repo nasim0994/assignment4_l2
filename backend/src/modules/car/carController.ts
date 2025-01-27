@@ -19,12 +19,13 @@ export const createCarController = catchAsync(async (req, res) => {
 });
 
 export const getAllCarController = catchAsync(async (req, res) => {
-  const result = await getAllCarService(req.query);
+  const { meta, data } = await getAllCarService(req.query);
 
   res.status(200).json({
     success: true,
     message: 'cars fetched successfully',
-    data: result,
+    meta,
+    data,
   });
 });
 
