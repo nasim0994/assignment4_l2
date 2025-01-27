@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAddCarMutation } from "@/redux/features/carApi";
 import toast from "react-hot-toast";
 import { TResponse } from "@/interface/globalInterface";
+import { ICar } from "@/interface/carInterface";
 
 type CarCategory =
   | "Sedan"
@@ -53,16 +54,14 @@ export default function AddProduct() {
       description,
     };
 
-    const res = await addCar(data);
+    const res = (await addCar(data)) as TResponse<ICar>;
 
-    if (res?.data?.success) {
+    if (res?.error) {
+      toast.error(res?.error?.data?.message);
+    } else {
       toast.success("Car added successfully");
       form.reset();
       navigate("/admin/car/all");
-    }
-
-    if (res?.error) {
-      res?.error?.data?.error?.map((err) => toast.error(err?.message));
     }
   };
 

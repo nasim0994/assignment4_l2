@@ -7,6 +7,8 @@ import {
 } from "@/redux/features/carApi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { TResponse } from "@/interface/globalInterface";
+import { ICar } from "@/interface/carInterface";
 
 type CarCategory =
   | "Sedan"
@@ -64,16 +66,14 @@ export default function EditProduct() {
       description,
     };
 
-    const res = await editCarById({ id, data });
+    const res = (await editCarById({ id, data })) as TResponse<ICar>;
 
-    if (res?.data?.success) {
+    if (res?.error) {
+      toast.error(res?.error?.data?.message);
+    } else {
       toast.success("Car update successfully");
       form.reset();
       navigate("/admin/car/all");
-    }
-
-    if (res?.error) {
-      res?.error?.data?.error?.map((err) => toast.error(err?.message));
     }
   };
 

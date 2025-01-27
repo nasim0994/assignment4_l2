@@ -19,6 +19,7 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { TResponse } from "@/interface/globalInterface";
 
 export default function AllProducts() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,13 +34,12 @@ export default function AllProducts() {
   const handleDelete = async (id: string) => {
     const confirm = window.confirm("Are you sure you want to delete?");
     if (confirm) {
-      const res = await deleteCarById(id);
-      if (res?.data?.success) {
-        toast.success("Car delete successfully");
-      }
+      const res = (await deleteCarById(id)) as TResponse<any>;
 
       if (res?.error) {
-        res?.error?.data?.error?.map((err) => toast.error(err?.message));
+        toast.error(res?.error?.data?.message);
+      } else {
+        toast.success("Car delete successfully");
       }
     }
   };
