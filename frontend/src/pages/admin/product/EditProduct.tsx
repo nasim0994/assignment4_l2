@@ -1,6 +1,12 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  useEditCarByIdMutation,
+  useGetCarByIdQuery,
+} from "@/redux/features/carApi";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 type CarCategory =
   | "Sedan"
@@ -9,25 +15,66 @@ type CarCategory =
   | "Coupe"
   | "Convertible"
   | "Hatchback";
+const categories: CarCategory[] = [
+  "Sedan",
+  "SUV",
+  "Truck",
+  "Coupe",
+  "Convertible",
+  "Hatchback",
+];
 
 export default function EditProduct() {
-  const categories: CarCategory[] = [
-    "Sedan",
-    "SUV",
-    "Truck",
-    "Coupe",
-    "Convertible",
-    "Hatchback",
-  ];
+  const { id } = useParams();
+  const [category, setCategory] = useState("");
+  const navigate = useNavigate();
 
-  const handleAddCar = (e: React.FormEvent<HTMLFormElement>) => {
+  const { data } = useGetCarByIdQuery(id);
+  const car = data?.data;
+
+  useEffect(() => {
+    if (car) setCategory(car?.category);
+  }, [car]);
+
+  const [editCarById, { isLoading }] = useEditCarByIdMutation();
+
+  const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
 
-    const data = Object.fromEntries(formData.entries());
+    const name = formData.get("name");
+    const image = formData.get("image");
+    const brand = formData.get("brand");
+    const model = formData.get("model");
+    const price = formData.get("price");
+    const stock = formData.get("stock");
+    const year = formData.get("year");
+    const description = formData.get("description");
 
-    console.log(data);
+    const data = {
+      name,
+      category,
+      image,
+      brand,
+      model,
+      price: Number(price),
+      stock: Number(stock),
+      year: Number(year),
+      description,
+    };
+
+    const res = await editCarById({ id, data });
+
+    if (res?.data?.success) {
+      toast.success("Car update successfully");
+      form.reset();
+      navigate("/admin/car/all");
+    }
+
+    if (res?.error) {
+      res?.error?.data?.error?.map((err) => toast.error(err?.message));
+    }
   };
 
   return (
@@ -49,11 +96,15 @@ export default function EditProduct() {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label>Name</label>
-            <input type="text" name="name" required />
+            <input type="text" name="name" required defaultValue={car?.name} />
           </div>
           <div>
             <label>Category</label>
-            <select name="category" required>
+            <select
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
               <option value="" disabled>
                 -- Choose a category --
               </option>
@@ -66,38 +117,75 @@ export default function EditProduct() {
           </div>
           <div className="sm:col-span-2">
             <label>Image URL</label>
-            <input type="text" name="image" required />
+            <input
+              type="text"
+              name="image"
+              required
+              defaultValue={car?.image}
+            />
           </div>
           <div>
             <label>Brand</label>
-            <input type="text" name="brand" required />
+            <input
+              type="text"
+              name="brand"
+              required
+              defaultValue={car?.brand}
+            />
           </div>
           <div>
             <label>Model</label>
-            <input type="text" name="model" required />
+            <input
+              type="text"
+              name="model"
+              required
+              defaultValue={car?.model}
+            />
           </div>
           <div className="sm:col-span-2 grid grid-cols-3 gap-3">
             <div>
               <label>Price</label>
-              <input type="number" name="price" required />
+              <input
+                type="number"
+                name="price"
+                required
+                defaultValue={car?.price}
+              />
             </div>
             <div>
               <label>Stock</label>
-              <input type="number" name="stock" required />
+              <input
+                type="number"
+                name="stock"
+                required
+                defaultValue={car?.stock}
+              />
             </div>
             <div>
               <label>Year</label>
-              <input type="number" name="year" required />
+              <input
+                type="number"
+                name="year"
+                required
+                defaultValue={car?.year}
+              />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label>Description</label>
-            <textarea name="description" rows={10} required></textarea>
+            <textarea
+              name="description"
+              rows={10}
+              required
+              defaultValue={car?.description}
+            ></textarea>
           </div>
         </div>
 
         <div className="mt-3">
-          <Button>Add Car</Button>
+          <Button disabled={isLoading}>
+            {isLoading ? "Loading..." : "Edit Car"}
+          </Button>
         </div>
       </form>
     </section>

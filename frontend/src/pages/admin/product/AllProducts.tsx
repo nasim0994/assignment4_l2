@@ -12,9 +12,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ICar } from "@/interface/carInterface";
-import { useGetAllCarsQuery } from "@/redux/features/carApi";
+import {
+  useDeleteCarByIdMutation,
+  useGetAllCarsQuery,
+} from "@/redux/features/carApi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function AllProducts() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +28,21 @@ export default function AllProducts() {
     limit,
   });
   const cars: ICar[] = data?.data;
+
+  const [deleteCarById] = useDeleteCarByIdMutation();
+  const handleDelete = async (id: string) => {
+    const confirm = window.confirm("Are you sure you want to delete?");
+    if (confirm) {
+      const res = await deleteCarById(id);
+      if (res?.data?.success) {
+        toast.success("Car delete successfully");
+      }
+
+      if (res?.error) {
+        res?.error?.data?.error?.map((err) => toast.error(err?.message));
+      }
+    }
+  };
 
   let content = null;
   if (isLoading || isFetching) content = <TableSkeleton />;
@@ -35,6 +54,7 @@ export default function AllProducts() {
             <TableHead className="w-[100px]">SL</TableHead>
             <TableHead>Car</TableHead>
             <TableHead>Price</TableHead>
+            <TableHead>Category</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -53,6 +73,7 @@ export default function AllProducts() {
                 </div>
               </TableCell>
               <TableCell>{car?.price}</TableCell>
+              <TableCell>{car?.category}</TableCell>
               <TableCell>
                 <div className="flex items-center justify-end gap-2 text-lg text-neutral/90">
                   <Link
@@ -61,7 +82,10 @@ export default function AllProducts() {
                   >
                     <BiEdit />
                   </Link>
-                  <button className="hover:text-red-500 duration-200">
+                  <button
+                    onClick={() => handleDelete(car?._id)}
+                    className="hover:text-red-500 duration-200"
+                  >
                     <RiDeleteBin6Line />
                   </button>
                 </div>

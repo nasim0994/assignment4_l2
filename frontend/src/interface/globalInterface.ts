@@ -2,8 +2,15 @@ import { BaseQueryApi } from "@reduxjs/toolkit/query";
 
 export interface TError {
   data: {
+    error: [
+      {
+        message: string;
+        path: string;
+      }
+    ];
     message: string;
     stack: string;
+    statusCode: number;
     success: boolean;
   };
   status: number;

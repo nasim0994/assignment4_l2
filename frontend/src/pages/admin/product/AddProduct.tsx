@@ -1,6 +1,9 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAddCarMutation } from "@/redux/features/carApi";
+import toast from "react-hot-toast";
+import { TResponse } from "@/interface/globalInterface";
 
 type CarCategory =
   | "Sedan"
@@ -10,24 +13,57 @@ type CarCategory =
   | "Convertible"
   | "Hatchback";
 
-export default function AddProduct() {
-  const categories: CarCategory[] = [
-    "Sedan",
-    "SUV",
-    "Truck",
-    "Coupe",
-    "Convertible",
-    "Hatchback",
-  ];
+const categories: CarCategory[] = [
+  "Sedan",
+  "SUV",
+  "Truck",
+  "Coupe",
+  "Convertible",
+  "Hatchback",
+];
 
-  const handleAddCar = (e: React.FormEvent<HTMLFormElement>) => {
+export default function AddProduct() {
+  const navigate = useNavigate();
+  const [addCar, { isLoading }] = useAddCarMutation();
+
+  const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
 
-    const data = Object.fromEntries(formData.entries());
+    const name = formData.get("name");
+    const category = formData.get("category");
+    const image = formData.get("image");
+    const brand = formData.get("brand");
+    const model = formData.get("model");
+    const price = formData.get("price");
+    const stock = formData.get("stock");
+    const year = formData.get("year");
+    const description = formData.get("description");
 
-    console.log(data);
+    const data = {
+      name,
+      category,
+      image,
+      brand,
+      model,
+      price: Number(price),
+      stock: Number(stock),
+      year: Number(year),
+      description,
+    };
+
+    const res = await addCar(data);
+
+    if (res?.data?.success) {
+      toast.success("Car added successfully");
+      form.reset();
+      navigate("/admin/car/all");
+    }
+
+    if (res?.error) {
+      res?.error?.data?.error?.map((err) => toast.error(err?.message));
+    }
   };
 
   return (
@@ -97,7 +133,9 @@ export default function AddProduct() {
         </div>
 
         <div className="mt-3">
-          <Button>Add Car</Button>
+          <Button disabled={isLoading}>
+            {isLoading ? "Loading..." : "Add Car"}
+          </Button>
         </div>
       </form>
     </section>

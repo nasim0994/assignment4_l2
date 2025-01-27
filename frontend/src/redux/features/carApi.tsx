@@ -3,10 +3,10 @@ import { baseApi } from "../baseApi";
 export const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addCar: builder.mutation({
-      query: (formData) => ({
+      query: (data) => ({
         url: `/car/add`,
         method: "POST",
-        body: formData,
+        body: data,
       }),
       invalidatesTags: ["car"],
     }),
@@ -18,7 +18,35 @@ export const carApi = baseApi.injectEndpoints({
       }),
       providesTags: ["car"],
     }),
+    getCarById: builder.query({
+      query: (id) => ({
+        url: `/car/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["car"],
+    }),
+    editCarById: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/car/update/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["car"],
+    }),
+    deleteCarById: builder.mutation({
+      query: (id) => ({
+        url: `/car/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["car"],
+    }),
   }),
 });
 
-export const { useAddCarMutation, useGetAllCarsQuery } = carApi;
+export const {
+  useAddCarMutation,
+  useGetAllCarsQuery,
+  useGetCarByIdQuery,
+  useEditCarByIdMutation,
+  useDeleteCarByIdMutation,
+} = carApi;
