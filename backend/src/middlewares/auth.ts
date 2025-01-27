@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import AppError from '../errors/AppError';
 import { catchAsync } from '../utils/catchAsync';
 import { User } from '../modules/user/userModel';
+import { verifyToken } from '../utils/createToken';
 
 export const auth = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -12,14 +13,22 @@ export const auth = (...requiredRoles: string[]) => {
 
     // checking if the token is missing
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You are not authorized! no token',
+      );
     }
 
     // checking if the given token is valid
-    const decoded = jwt.verify(
-      token,
-      config.JWT_ACCESS_SECRET as string,
-    ) as JwtPayload;
+    let decoded;
+    try {
+      decoded = verifyToken(token, config.JWT_ACCESS_SECRET as string);
+    } catch {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You are not authorized! invalid token',
+      );
+    }
 
     const { role, email } = decoded;
 

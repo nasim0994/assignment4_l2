@@ -13,7 +13,7 @@ const url = import.meta.env.VITE_BACKEND_URL;
 const baseQuery = fetchBaseQuery({
   baseUrl: url,
   // credentials: "include",
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: async (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
