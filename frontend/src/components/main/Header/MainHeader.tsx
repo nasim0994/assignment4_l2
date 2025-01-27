@@ -1,11 +1,30 @@
-import { FiShoppingCart } from "react-icons/fi";
-import { useState } from "react";
-import { FiLogIn } from "react-icons/fi";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { BiLogOutCircle, BiUserCircle } from "react-icons/bi";
+import { FiShoppingCart, FiLogIn, FiMonitor } from "react-icons/fi";
+import { IoBagCheckOutline } from "react-icons/io5";
+import { RxDashboard } from "react-icons/rx";
 import { BsSearch } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from "@/redux/hook/hooks";
+import { userLogout } from "@/redux/features/user/authSlice";
 
 export default function MainHeader() {
   const [searchSidebar, setSearchSidebar] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
+  const { loggedUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    window.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (
+        !target.closest(".profileDropdownBtn") &&
+        !target.closest(".user_info")
+      ) {
+        setProfileDropdown(false);
+      }
+    });
+  }, []);
 
   return (
     <div className="bg-secondary py-2 text-base-100">
@@ -45,18 +64,87 @@ export default function MainHeader() {
               </div>
             </Link>
 
-            <Link to="/login" className="flex items-center gap-2.5">
-              <i>
-                <FiLogIn className="text-2xl text-primary" />
-              </i>
+            {loggedUser?.email ? (
+              <div className="relative">
+                <button
+                  onClick={() => setProfileDropdown(!profileDropdown)}
+                  className="hover:text-primary duration-300 mt-px profileDropdownBtn"
+                >
+                  <BiUserCircle className="text-3xl" />
+                </button>
 
-              <div>
-                <h2 className="text-sm">Account</h2>
-                <p className="-mt-1 whitespace-nowrap text-[11px]">
-                  Register or Login
-                </p>
+                {profileDropdown && (
+                  <ul className="absolute right-0 top-[130%] z-50 w-max min-w-[220px] overflow-hidden rounded bg-base-100 text-[15px] text-neutral shadow-lg">
+                    <li className="user_info border-b px-2 py-1">
+                      <div className="flex items-center gap-2">
+                        <BiUserCircle className="text-3xl" />
+                        <div>
+                          <h1 className="text-[17px]">name</h1>
+                          <p className="text-sm text-neutral-content">
+                            {loggedUser?.email}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+
+                    {loggedUser?.role === "admin" && (
+                      <li>
+                        <Link
+                          to="/admin/dashboard"
+                          className="flex w-full items-center gap-1 px-3 py-1.5 duration-200 hover:bg-gray-200"
+                        >
+                          <RxDashboard className="text-lg" />
+                          Dashboard
+                        </Link>
+                      </li>
+                    )}
+
+                    <li>
+                      <Link
+                        to="/account/profile"
+                        className="flex w-full items-center gap-1 px-3 py-1.5 duration-200 hover:bg-gray-200"
+                      >
+                        <FiMonitor className="text-lg" />
+                        View Profile
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link
+                        to="/account/orders"
+                        className="flex w-full items-center gap-1 px-3 py-1.5 duration-200 hover:bg-gray-200"
+                      >
+                        <IoBagCheckOutline className="text-xl" />
+                        My Order List
+                      </Link>
+                    </li>
+
+                    <li>
+                      <button
+                        onClick={() => dispatch(userLogout())}
+                        className="flex w-full items-center gap-1 border-t px-3 py-1.5 text-red-500 duration-200 hover:bg-gray-200"
+                      >
+                        <BiLogOutCircle className="text-base" />
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                )}
               </div>
-            </Link>
+            ) : (
+              <Link to="/login" className="flex items-center gap-2.5">
+                <i>
+                  <FiLogIn className="text-2xl text-primary" />
+                </i>
+
+                <div>
+                  <h2 className="text-sm">Account</h2>
+                  <p className="-mt-1 whitespace-nowrap text-[11px]">
+                    Login or Register
+                  </p>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

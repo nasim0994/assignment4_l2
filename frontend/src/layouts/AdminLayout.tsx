@@ -7,7 +7,7 @@ import AdminSidebar from "@/components/admin/AdminSidebar/AdminSidebar";
 export default function AdminLayout() {
   const [sidebar, setSidebar] = useState(false);
   useEffect(() => {
-    window.addEventListener("click", (e ) => {
+    window.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (
         (!target.closest(".admin_sidebar") &&

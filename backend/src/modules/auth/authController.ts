@@ -1,40 +1,52 @@
-import { RequestHandler } from 'express';
 import { catchAsync } from '../../utils/catchAsync';
-import { createUserService, loginUserService } from './authService';
+import {
+  createUserService,
+  loginUserService,
+  refreshTokenService,
+} from './authService';
 import httpStatus from 'http-status';
-import { IUser } from '../user/userInterface';
 import config from '../../config';
 
-export const createUserController: RequestHandler = catchAsync(
-  async (req, res) => {
-    const data: IUser = req.body;
-    const result = await createUserService(data);
+export const createUserController = catchAsync(async (req, res) => {
+  const data = req.body;
 
-    res.status(200).json({
-      success: true,
-      message: 'user created successfully',
-      data: result,
-    });
-  },
-);
+  const result = await createUserService(data);
 
-export const loginUserController: RequestHandler = catchAsync(
-  async (req, res) => {
-    const result = await loginUserService(req.body);
-    const { refreshToken, accessToken } = result;
+  res.status(200).json({
+    success: true,
+    message: 'user created successfully',
+    data: result,
+  });
+});
 
-    res.cookie('refreshToken', refreshToken, {
-      secure: config.NODE_ENV === 'production',
-      httpOnly: true,
-    });
+export const loginUserController = catchAsync(async (req, res) => {
+  const result = await loginUserService(req.body);
+  const { refreshToken, accessToken } = result;
 
-    res.status(200).json({
-      success: true,
-      statusCode: httpStatus.OK,
-      message: 'User is logged in succesfully!',
-      data: {
-        accessToken,
-      },
-    });
-  },
-);
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'none',
+  });
+
+  res.status(200).json({
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User is logged in successfully!',
+    data: {
+      accessToken,
+    },
+  });
+});
+
+export const refreshTokenController = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await refreshTokenService(refreshToken);
+
+  res.status(200).json({
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Token refreshed successfully',
+    data: result,
+  });
+});

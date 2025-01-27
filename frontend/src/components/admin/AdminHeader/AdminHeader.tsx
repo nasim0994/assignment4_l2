@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
-// import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
-
+import { useAppDispatch, useAppSelector } from "@/redux/hook/hooks";
+import { userLogout } from "@/redux/features/user/authSlice";
 
 interface AdminHeaderProps {
   setSidebar: (value: boolean) => void;
@@ -12,8 +12,8 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ setSidebar }: AdminHeaderProps) {
   const [dropdown, setDropdown] = useState(false);
-  // const { loggedUser } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const { loggedUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     window.addEventListener("click", (e) => {
@@ -50,19 +50,13 @@ export default function AdminHeader({ setSidebar }: AdminHeaderProps) {
             className="d_btn flex items-center gap-1"
           >
             <FaRegUserCircle className="text-lg" />
-            {/* {loggedUser?.data?.name} */}
+            {loggedUser?.email}
           </button>
 
           {dropdown && (
             <div className="absolute right-0 top-[140%] w-40 rounded bg-base-100 p-2 shadow">
-              <Link
-                to="/admin/general-setting/profile"
-                className="block w-full rounded px-2 py-1 text-start hover:bg-gray-100"
-              >
-                Profile
-              </Link>
               <button
-                // onClick={() => dispatch(userLogout())}
+                onClick={() => dispatch(userLogout())}
                 className="w-full rounded px-2 py-1 text-start text-red-500 hover:bg-gray-100"
               >
                 Logout
