@@ -7,7 +7,7 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "./store";
-// import { userLoggedIn, userLogout } from "./features/user/authSlice";
+import { userLoggedIn, userLogout } from "./features/user/authSlice";
 const url = import.meta.env.VITE_BACKEND_URL + "/api";
 
 const baseQuery = fetchBaseQuery({
@@ -27,31 +27,31 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
-  const result = await baseQuery(args, api, extraOptions);
+  let result = await baseQuery(args, api, extraOptions);
 
-  // if (result?.error?.status === 401) {
-  //   const res = await fetch(`${url}/auth/refresh-token`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //   });
+  if (result?.error?.status === 401) {
+    const res = await fetch(`${url}/auth/refresh-token`, {
+      method: "POST",
+      credentials: "include",
+    });
 
-  //   const data = await res.json();
+    const data = await res.json();
 
-  //   if (data?.data?.accessToken) {
-  //     const user = (api.getState() as RootState).auth.loggedUser;
+    if (data?.data?.accessToken) {
+      const user = (api.getState() as RootState).auth.loggedUser;
 
-  //     api.dispatch(
-  //       userLoggedIn({
-  //         user,
-  //         token: data.data.accessToken,
-  //       })
-  //     );
+      api.dispatch(
+        userLoggedIn({
+          user,
+          token: data.data.accessToken,
+        })
+      );
 
-  //     result = await baseQuery(args, api, extraOptions);
-  //   } else {
-  //     api.dispatch(userLogout());
-  //   }
-  // }
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      api.dispatch(userLogout());
+    }
+  }
 
   return result;
 };
