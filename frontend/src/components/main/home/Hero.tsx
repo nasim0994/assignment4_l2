@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
-import "swiper/css";
 
 export default function Hero() {
   return (
@@ -9,37 +6,14 @@ export default function Hero() {
       <div className="container">
         <div className="grid grid-cols-1 gap-1.5 md:grid-cols-3 md:items-start md:gap-3">
           <div className="h-40 sm:h-72 md:col-span-2 md:h-[300px] lg:h-[400px]">
-            <Swiper
-              navigation={true}
-              modules={[Navigation, Autoplay]}
-              loop={true}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-              }}
-              className="h-full w-full object-cover"
-            >
-              <SwiperSlide>
-                <Link to="#">
-                  <img
-                    src="https://www.bmw-me.com/content/dam/bmw/marketMIDEAST/common/local-content/X%20Range%20Campaign/Xrange-home.jpg"
-                    alt="banner"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link to="#">
-                  <img
-                    src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/49cf7573923007.5c1a18f635412.jpg"
-                    alt="banner"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </Link>
-              </SwiperSlide>
-            </Swiper>
+            <Link to="#">
+              <img
+                src="https://www.bmw-me.com/content/dam/bmw/marketMIDEAST/common/local-content/X%20Range%20Campaign/Xrange-home.jpg"
+                alt="banner"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </Link>
           </div>
 
           <div className="flex gap-2 md:flex-col">

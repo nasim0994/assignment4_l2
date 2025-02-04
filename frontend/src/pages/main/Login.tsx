@@ -1,15 +1,17 @@
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "@/redux/hook/hooks";
 import { useLoginMutation } from "@/redux/features/user/authApi";
 import { verifyToken } from "@/utils/verifyToken";
 import { TUser, userLoggedIn } from "@/redux/features/user/authSlice";
+import { TResponse } from "@/interface/globalInterface";
 
 export default function Login() {
   window.scrollTo(0, 0);
   const { loggedUser } = useAppSelector((store) => store.auth);
-  const [login, { isLoading, isError, error }] = useLoginMutation();
+  const [login, { isLoading, isError }] = useLoginMutation();
+  const [error, setError] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,12 +41,15 @@ export default function Login() {
     };
 
     try {
-      const res = await login(loginInfo).unwrap();
+      const res = (await login(loginInfo).unwrap()) as TResponse;
 
       if (res?.success) {
         const user = verifyToken(res?.data?.accessToken) as TUser;
         dispatch(userLoggedIn({ user, token: res?.data?.accessToken }));
         toast.success("Login successful", { id: toastId, duration: 2000 });
+      }
+      if (res?.error) {
+        setError(res?.error?.data?.message);
       }
     } catch (error) {
       toast.error("something went wrong!", { id: toastId });
@@ -84,9 +89,7 @@ export default function Login() {
           />
         </div>
 
-        {error && (
-          <p className="text-red-500 text-xs">{error?.data?.message}</p>
-        )}
+        {error && <p className="text-red-500 text-xs">{error}</p>}
 
         <br />
         <button

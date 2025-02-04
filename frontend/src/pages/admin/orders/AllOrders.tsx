@@ -10,6 +10,7 @@ import {
   useStatusUpdateMutation,
 } from "@/redux/features/orderApi";
 import toast from "react-hot-toast";
+import { TResponse } from "@/interface/globalInterface";
 
 type IQuery = {
   page?: number;
@@ -33,19 +34,14 @@ export default function AllOrders() {
   const deleteOrderHandler = async (id: string) => {
     const isConfirm = window.confirm("Do you want to delete this order?");
 
-    try {
-      if (isConfirm) {
-        const result = await deleteOrder(id);
-        if (result?.data?.success) {
-          toast.success(result?.data?.message);
-        } else {
-          toast.error(result?.error?.data?.message || "Something went wrong");
-          console.log(result);
-        }
+    if (isConfirm) {
+      const result = (await deleteOrder(id)) as TResponse;
+      if (result?.data?.success) {
+        toast.success(result?.data?.message);
+      } else {
+        toast.error(result?.error?.data?.message || "Something went wrong");
+        console.log(result);
       }
-    } catch (error) {
-      toast.error(error?.message || "Something went wrong");
-      console.log(error);
     }
   };
 
@@ -91,10 +87,10 @@ export default function AllOrders() {
             <select
               value={order?.status}
               onChange={async (e) => {
-                const res = await statusUpdate({
+                const res = (await statusUpdate({
                   id: order?._id,
                   status: e.target.value,
-                });
+                })) as TResponse;
                 if (res?.data?.success) {
                   toast.success("Status updated");
                 } else {

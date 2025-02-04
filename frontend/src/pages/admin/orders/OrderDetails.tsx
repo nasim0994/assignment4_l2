@@ -8,6 +8,7 @@ import {
 } from "@/redux/features/orderApi";
 import toast from "react-hot-toast";
 import { IOrder } from "@/interface/orderInterface";
+import { TResponse } from "@/interface/globalInterface";
 
 export default function OrderDetails() {
   const params = useParams();
@@ -23,20 +24,15 @@ export default function OrderDetails() {
   const deleteOrderHandler = async (id: string) => {
     const isConfirm = window.confirm("Do you want to delete this order?");
 
-    try {
-      if (isConfirm) {
-        const result = await deleteOrder(id);
-        if (result?.data?.success) {
-          toast.success(result?.data?.message);
-          navigate("/admin/order/all");
-        } else {
-          toast.error(result?.error?.data?.message || "Something went wrong");
-          console.log(result);
-        }
+    if (isConfirm) {
+      const result = (await deleteOrder(id)) as TResponse;
+      if (result?.data?.success) {
+        toast.success(result?.data?.message);
+        navigate("/admin/order/all");
+      } else {
+        toast.error(result?.error?.data?.message || "Something went wrong");
+        console.log(result);
       }
-    } catch (error) {
-      toast.error(error?.message || "Something went wrong");
-      console.log(error);
     }
   };
 

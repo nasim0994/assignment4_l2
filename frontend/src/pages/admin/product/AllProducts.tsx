@@ -34,7 +34,7 @@ export default function AllProducts() {
   const handleDelete = async (id: string) => {
     const confirm = window.confirm("Are you sure you want to delete?");
     if (confirm) {
-      const res = (await deleteCarById(id)) as TResponse<any>;
+      const res = (await deleteCarById(id)) as TResponse;
 
       if (res?.error) {
         toast.error(res?.error?.data?.message);

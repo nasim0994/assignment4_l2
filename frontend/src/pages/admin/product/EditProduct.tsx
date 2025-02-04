@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { TResponse } from "@/interface/globalInterface";
-import { ICar } from "@/interface/carInterface";
 
 type CarCategory =
   | "Sedan"
@@ -66,7 +65,7 @@ export default function EditProduct() {
       description,
     };
 
-    const res = (await editCarById({ id, data })) as TResponse<ICar>;
+    const res = (await editCarById({ id, data })) as TResponse;
 
     if (res?.error) {
       toast.error(res?.error?.data?.message);

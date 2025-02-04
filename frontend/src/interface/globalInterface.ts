@@ -1,5 +1,3 @@
-import { BaseQueryApi } from "@reduxjs/toolkit/query";
-
 export interface TErrors {
   message: string;
   path: string;
@@ -23,15 +21,13 @@ export interface TMeta {
   totalPage: number;
 }
 
-export interface TResponse<T> {
-  data?: T;
+export interface TResponse {
+  data?: any;
   error?: TError;
   meta?: TMeta;
   success: boolean;
   message: string;
 }
-
-export interface TResponseRedux<T> extends TResponse<T>, BaseQueryApi {}
 
 export interface TQueryParam {
   name: string;
