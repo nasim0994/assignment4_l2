@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('uploads'));
 app.use(
   cors({
-    origin: ['https://assignment4.nasimuddin.me', 'http://localhost:3015'],
+    origin: '*',
     credentials: true,
   }),
 );

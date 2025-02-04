@@ -40,6 +40,8 @@ export default function Login() {
     };
 
     const res = (await login(loginInfo)) as TResponse;
+    console.log(res);
+
     if (res?.data?.success) {
       const user = verifyToken(res?.data?.data?.accessToken) as TUser;
       dispatch(userLoggedIn({ user, token: res?.data?.data?.accessToken }));
