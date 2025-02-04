@@ -1,8 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { mainRoutes } from "./mainRoutes";
-import { adminRoutes } from "./adminRoutes";
+import { mainRoutes } from "./MainRoutes";
+import { adminRoutes } from "./AdminRoutes";
 
-export const router = createBrowserRouter([
-  mainRoutes,
-  adminRoutes,
-]);
+export const router = createBrowserRouter([mainRoutes, adminRoutes]);
