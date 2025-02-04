@@ -7,6 +7,9 @@ export default function Menu() {
         <nav className="header_menu">
           <ul>
             <li>
+              <Link to="/shop"> All Products </Link>
+            </li>
+            <li>
               <Link to="/shop?category=Sedan"> Sedan </Link>
             </li>
             <li>

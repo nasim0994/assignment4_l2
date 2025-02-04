@@ -29,10 +29,17 @@ class QueryBuilder<T> {
 
   // Filter by author or other fields
   filter() {
-    const { category } = this.query;
+    const { category, range } = this.query;
 
     if (category) {
       this.modelQuery = this.modelQuery.find({ category });
+    }
+
+    if (range) {
+      const [min, max] = JSON.parse(range as string);
+      this.modelQuery = this.modelQuery.find({
+        price: { $gte: min, $lte: max },
+      });
     }
 
     return this;

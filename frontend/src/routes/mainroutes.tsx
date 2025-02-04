@@ -5,6 +5,7 @@ import Checkout from "@/pages/main/Checkout";
 import Home from "@/pages/main/Home";
 import Login from "@/pages/main/Login";
 import ProductDetails from "@/pages/main/ProductDetails";
+import Shop from "@/pages/main/Shop";
 
 export const mainRoutes = {
   path: "/",
@@ -21,6 +22,10 @@ export const mainRoutes = {
     {
       path: "/product/:id",
       element: <ProductDetails />,
+    },
+    {
+      path: "/shop",
+      element: <Shop />,
     },
     {
       path: "/cart",

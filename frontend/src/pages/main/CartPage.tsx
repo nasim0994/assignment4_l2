@@ -10,6 +10,7 @@ import CartItem from "@/components/main/cart/CartItem";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function CartPage() {
+  window.scrollTo(0, 0);
   const carts = useAppSelector((state) => state.cart.carts);
   const dispatch = useAppDispatch();
 

@@ -7,6 +7,7 @@ import { verifyToken } from "@/utils/verifyToken";
 import { TUser, userLoggedIn } from "@/redux/features/user/authSlice";
 
 export default function Login() {
+  window.scrollTo(0, 0);
   const { loggedUser } = useAppSelector((store) => store.auth);
   const [login, { isLoading, isError, error }] = useLoginMutation();
   const dispatch = useAppDispatch();

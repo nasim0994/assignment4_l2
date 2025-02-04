@@ -201,3 +201,42 @@ table tfoot tr th {
 table tfoot tr:last-child {
   border-bottom: none;
 }
+
+/* ---------------Shop page -------------------*/
+.shop_categories {
+  width: 300px;
+  background: var(--base100);
+  border-radius: 5px;
+  padding: 6px;
+  position: sticky;
+  top: 65px;
+  align-self: self-start;
+}
+
+.shop_products {
+  width: calc(100% - 300px);
+  background: var(--base100);
+  border-radius: 5px;
+  padding: 6px;
+}
+
+.shop_categories ul li a {
+  color: #404145e4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.shop_categories ul li a:hover {
+  background: #dddddd32;
+  color: var(--primary);
+}
+
+@media only screen and (max-width: 768px) {
+  .shop_products {
+    width: 100%;
+  }
+}

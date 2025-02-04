@@ -8,6 +8,7 @@ type OrderProduct = {
 };
 
 export default function Checkout() {
+  window.scrollTo(0, 0);
   const { carts } = useAppSelector((state) => state.cart);
   const { loggedUser } = useAppSelector((state) => state.auth);
   const [shipping, setShipping] = useState(0);
@@ -93,7 +94,6 @@ export default function Checkout() {
                     name="number"
                     className="mt-2 w-full rounded border-2 p-2 outline-none"
                     required
-                    defaultValue={loggedUser?.phone}
                   />
                 </div>
               </div>
