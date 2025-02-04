@@ -65,7 +65,7 @@ export default function AllProducts() {
               <TableCell>
                 <div className="flex items-center gap-2">
                   <img
-                    src={car?.image}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${car?.image}`}
                     alt="car"
                     className="w-12 h-12 rounded-full border object-cover"
                   />

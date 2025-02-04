@@ -3,7 +3,6 @@ import { z } from 'zod';
 export const carValidation = z.object({
   name: z.string().nonempty({ message: 'Name is required' }),
   price: z.number().min(0, { message: 'Price must be a positive number' }),
-  image: z.string().nonempty({ message: 'Image is required' }),
   brand: z.string().nonempty({ message: 'Brand is required' }),
   model: z.string().nonempty({ message: 'Model is required' }),
   year: z.number().int(),

@@ -26,10 +26,10 @@ export const carApi = baseApi.injectEndpoints({
       providesTags: ["car"],
     }),
     editCarById: builder.mutation({
-      query: ({ id, data }) => ({
+      query: ({ id, formData }) => ({
         url: `/car/update/${id}`,
         method: "PUT",
-        body: data,
+        body: formData,
       }),
       invalidatesTags: ["car"],
     }),

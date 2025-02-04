@@ -8,7 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "./store";
 import { userLoggedIn, userLogout } from "./features/user/authSlice";
-const url = import.meta.env.VITE_BACKEND_URL;
+const url = import.meta.env.VITE_BACKEND_URL + "/api";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: url,

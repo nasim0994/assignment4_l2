@@ -11,6 +11,8 @@ const app: Application = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('uploads'));
 app.use(
   cors({
     origin: ['https://assignment4.nasimuddin.me', 'http://localhost:3015'],

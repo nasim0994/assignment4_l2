@@ -29,12 +29,16 @@ export default function EditProduct() {
   const { id } = useParams();
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const { data } = useGetCarByIdQuery(id);
   const car = data?.data;
 
   useEffect(() => {
-    if (car) setCategory(car?.category);
+    if (car) {
+      setCategory(car?.category);
+      setImagePreview(car?.image);
+    }
   }, [car]);
 
   const [editCarById, { isLoading }] = useEditCarByIdMutation();
@@ -42,16 +46,16 @@ export default function EditProduct() {
   const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
+    const target = new FormData(form);
 
-    const name = formData.get("name");
-    const image = formData.get("image");
-    const brand = formData.get("brand");
-    const model = formData.get("model");
-    const price = formData.get("price");
-    const stock = formData.get("stock");
-    const year = formData.get("year");
-    const description = formData.get("description");
+    const name = target.get("name");
+    const image = target.get("image");
+    const brand = target.get("brand");
+    const model = target.get("model");
+    const price = target.get("price");
+    const stock = target.get("stock");
+    const year = target.get("year");
+    const description = target.get("description");
 
     const data = {
       name,
@@ -65,7 +69,11 @@ export default function EditProduct() {
       description,
     };
 
-    const res = (await editCarById({ id, data })) as TResponse;
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    if (image) formData.append("file", image);
+
+    const res = (await editCarById({ id, formData })) as TResponse;
 
     if (res?.error) {
       toast.error(res?.error?.data?.message);
@@ -115,13 +123,17 @@ export default function EditProduct() {
             </select>
           </div>
           <div className="sm:col-span-2">
-            <label>Image URL</label>
-            <input
-              type="text"
-              name="image"
-              required
-              defaultValue={car?.image}
-            />
+            <label>Image</label>
+            {imagePreview && (
+              <div className="mb-2">
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/${imagePreview}`}
+                  alt="Car Preview"
+                  className="max-w-20 object-cover"
+                />
+              </div>
+            )}
+            <input type="file" name="image" />
           </div>
           <div>
             <label>Brand</label>

@@ -76,7 +76,9 @@ export default function OrderDetails() {
               >
                 <div className="flex items-center gap-2">
                   <img
-                    src={car?.car?.image}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${
+                      car?.car?.image
+                    }`}
                     alt="product"
                     className="h-10 w-10 rounded-full"
                   />

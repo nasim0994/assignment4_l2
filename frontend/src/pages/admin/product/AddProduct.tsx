@@ -29,22 +29,26 @@ export default function AddProduct() {
   const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
+    const target = new FormData(form);
 
-    const name = formData.get("name");
-    const category = formData.get("category");
-    const image = formData.get("image");
-    const brand = formData.get("brand");
-    const model = formData.get("model");
-    const price = formData.get("price");
-    const stock = formData.get("stock");
-    const year = formData.get("year");
-    const description = formData.get("description");
+    const name = target.get("name");
+    const category = target.get("category");
+    const image = target.get("image");
+    const brand = target.get("brand");
+    const model = target.get("model");
+    const price = target.get("price");
+    const stock = target.get("stock");
+    const year = target.get("year");
+    const description = target.get("description");
+
+    if (!(image instanceof Blob)) {
+      toast.error("Please upload an image.");
+      return;
+    }
 
     const data = {
       name,
       category,
-      image,
       brand,
       model,
       price: Number(price),
@@ -53,10 +57,15 @@ export default function AddProduct() {
       description,
     };
 
-    const res = (await addCar(data)) as TResponse;
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    formData.append("file", image);
+
+    const res = (await addCar(formData)) as TResponse;
 
     if (res?.error) {
-      toast.error(res?.error?.data?.message);
+      toast.error(res?.error?.data?.message || "An error occurred");
+      console.log(res);
     } else {
       toast.success("Car added successfully");
       form.reset();
@@ -99,8 +108,8 @@ export default function AddProduct() {
             </select>
           </div>
           <div className="sm:col-span-2">
-            <label>Image URL</label>
-            <input type="text" name="image" required />
+            <label>Image</label>
+            <input type="file" name="image" required />
           </div>
           <div>
             <label>Brand</label>

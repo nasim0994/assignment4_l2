@@ -51,7 +51,10 @@ export default function ProductDetails() {
       <div className="container">
         <div className="grid sm:grid-cols-2 gap-10">
           <div>
-            <img src={car?.image} alt={car?.title} />
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/${car?.image}`}
+              alt={car?.title}
+            />
           </div>
 
           <div>

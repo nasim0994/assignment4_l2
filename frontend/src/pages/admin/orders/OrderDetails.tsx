@@ -180,7 +180,9 @@ export default function OrderDetails() {
                     <td>
                       <div className="flex items-center gap-2">
                         <img
-                          src={car?.car?.image}
+                          src={`${import.meta.env.VITE_BACKEND_URL}/${
+                            car?.car?.image
+                          }`}
                           alt={car?.car?.name}
                           className="h-9 w-9 rounded-full"
                           loading="lazy"

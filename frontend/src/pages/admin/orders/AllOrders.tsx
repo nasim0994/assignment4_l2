@@ -73,7 +73,7 @@ export default function AllOrders() {
               <img
                 key={i}
                 className="h-8 w-8 rounded-full border-2 border-white"
-                src={car?.car?.image}
+                src={`${import.meta.env.VITE_BACKEND_URL}/${car?.car?.image}`}
                 alt={car?.car?.name}
               />
             ))}

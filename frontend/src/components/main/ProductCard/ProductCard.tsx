@@ -24,7 +24,11 @@ export default function ProductCard({ car }: IProductCardProps) {
         className="flex w-full flex-col items-center justify-between"
       >
         <figure className="group relative h-[185px] w-[90%">
-          <img src={car?.image} alt="product" className="h-full w-full" />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/${car?.image}`}
+            alt="product"
+            className="h-full w-full"
+          />
         </figure>
 
         <p className="mt-4 px-3 text-[15px]">{car?.name}</p>
