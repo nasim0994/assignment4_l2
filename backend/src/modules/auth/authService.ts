@@ -13,6 +13,7 @@ export const createUserService = async (data: IUser) => {
     name,
     email,
     password,
+    role: 'user',
   });
   return result;
 };

@@ -13,7 +13,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: 'https://assignment4.nasimuddin.me',
+    origin: ['https://assignment4.nasimuddin.me', 'http://localhost:3015'],
     credentials: true,
   }),
 );

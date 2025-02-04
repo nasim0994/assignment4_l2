@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "@/redux/hook/hooks";
 import { useLoginMutation } from "@/redux/features/user/authApi";
@@ -29,7 +29,6 @@ export default function Login() {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const toastId = toast.loading("Logging in");
 
     const form = e.target as HTMLFormElement;
     const email = form.email.value;
@@ -40,66 +39,78 @@ export default function Login() {
       password,
     };
 
-    try {
-      const res = (await login(loginInfo).unwrap()) as TResponse;
-
-      if (res?.success) {
-        const user = verifyToken(res?.data?.accessToken) as TUser;
-        dispatch(userLoggedIn({ user, token: res?.data?.accessToken }));
-        toast.success("Login successful", { id: toastId, duration: 2000 });
-      }
-      if (res?.error) {
-        setError(res?.error?.data?.message);
-      }
-    } catch (error) {
-      toast.error("something went wrong!", { id: toastId });
-      console.log(error);
+    const res = (await login(loginInfo)) as TResponse;
+    if (res?.data?.success) {
+      const user = verifyToken(res?.data?.data?.accessToken) as TUser;
+      dispatch(userLoggedIn({ user, token: res?.data?.data?.accessToken }));
+      toast.success("Login successful");
+      setError("");
+    }
+    if (res?.error) {
+      setError(res?.error?.data?.message);
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] w-full">
-      <form onSubmit={handleLogin} className="w-[90%] sm:w-[350px]">
-        <div>
-          <h2 className="text-2xl font-medium text-center">Welcome Back</h2>
-        </div>
-        <br />
-        <div className="mb-5">
-          <label htmlFor="email" className="block mb-2 text-sm font-medium">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-            placeholder="example@gmail.com"
-            required
-          />
-        </div>
-        <div className="mb-1">
-          <label htmlFor="password" className="block mb-2 text-sm font-medium">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "
-            placeholder="********"
-            required
-          />
-        </div>
+      <div>
+        <form onSubmit={handleLogin} className="w-[90%] sm:w-[350px]">
+          <div>
+            <h2 className="text-2xl font-medium text-center">Welcome Back</h2>
+          </div>
+          <br />
+          <div className="mb-5">
+            <label htmlFor="email" className="block mb-2 text-sm font-medium">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              placeholder="example@gmail.com"
+              required
+            />
+          </div>
+          <div className="mb-1">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "
+              placeholder="********"
+              required
+            />
+          </div>
 
-        {error && <p className="text-red-500 text-xs">{error}</p>}
+          {error && <p className="text-red-500 text-xs">{error}</p>}
 
-        <br />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="text-base-100 bg-primary font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-        >
-          {isLoading ? "Loading..." : "Submit"}
-        </button>
-      </form>
+          <br />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="text-base-100 bg-primary font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          >
+            {isLoading ? "Loading..." : "Submit"}
+          </button>
+        </form>
+
+        <div className="border-t border-neutral/20 mt-6 pt-4 text-center">
+          <p className="text-sm text-neutral/70">
+            No have any account?
+            <Link
+              to="/register"
+              className="text-blue-500  pl-2 hover:underline"
+            >
+              Create an account
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

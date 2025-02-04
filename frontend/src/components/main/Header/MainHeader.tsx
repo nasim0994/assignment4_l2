@@ -80,7 +80,7 @@ export default function MainHeader() {
                       <div className="flex items-center gap-2">
                         <BiUserCircle className="text-3xl" />
                         <div>
-                          <h1 className="text-[17px]">name</h1>
+                          <h1 className="text-[17px]">{loggedUser?.name}</h1>
                           <p className="text-sm text-neutral-content">
                             {loggedUser?.email}
                           </p>

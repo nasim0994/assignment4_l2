@@ -8,6 +8,7 @@ import Home from "@/pages/main/Home";
 import Login from "@/pages/main/Login";
 import OrderPaymentVerify from "@/pages/main/OrderPaymentVerify";
 import ProductDetails from "@/pages/main/ProductDetails";
+import Register from "@/pages/main/Register";
 import Shop from "@/pages/main/Shop";
 import MyOrders from "@/pages/user/MyOrders";
 import OrderDetails from "@/pages/user/OrderDetails";
@@ -23,6 +24,10 @@ export const mainRoutes = {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
     },
     {
       path: "/product/:id",
