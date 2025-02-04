@@ -22,7 +22,7 @@ npm install
 Create a `.env` file in the root of the project and add the following variables:
 
 ```env
-PORT=5000
+PORT=3016
 DB_URL=
 ```
 
