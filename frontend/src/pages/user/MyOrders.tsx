@@ -63,30 +63,24 @@ export default function MyOrders() {
   }
 
   return (
-    <section className="py-5">
-      <div className="container">
-        <h2 className="text-neutral text-xl font-medium text-center mb-4">
-          My Orders
-        </h2>
+    <section>
+      <div className="mb-3 border-b pb-1">
+        <h3>All Orders</h3>
+      </div>
 
-        <div className="mb-3 border-b pb-1">
-          <h3>All Orders</h3>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="px-4">Order Id</th>
-                <th className="px-4">Total Price</th>
-                <th className="px-4"> Payment</th>
-                <th className="px-4"> Status</th>
-                <th className="px-4"> Action</th>
-              </tr>
-            </thead>
-            <tbody>{content}</tbody>
-          </table>
-        </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="px-4">Order Id</th>
+              <th className="px-4">Total Price</th>
+              <th className="px-4"> Payment</th>
+              <th className="px-4"> Status</th>
+              <th className="px-4"> Action</th>
+            </tr>
+          </thead>
+          <tbody>{content}</tbody>
+        </table>
       </div>
     </section>
   );

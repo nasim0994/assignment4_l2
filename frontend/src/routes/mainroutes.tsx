@@ -1,5 +1,6 @@
 import MainLayout from "@/layouts/MainLayout";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import UserLayout from "@/layouts/UserLayout";
 import CartPage from "@/pages/main/CartPage";
 import Checkout from "@/pages/main/Checkout";
 import Home from "@/pages/main/Home";
@@ -51,20 +52,22 @@ export const mainRoutes = {
       ),
     },
     {
-      path: "/user/my-orders",
+      path: "/user",
       element: (
         <ProtectedRoute>
-          <MyOrders />
+          <UserLayout />
         </ProtectedRoute>
       ),
-    },
-    {
-      path: "/user/my-order/:id",
-      element: (
-        <ProtectedRoute>
-          <OrderDetails />
-        </ProtectedRoute>
-      ),
+      children: [
+        {
+          path: "my-orders",
+          element: <MyOrders />,
+        },
+        {
+          path: "my-order/:id",
+          element: <OrderDetails />,
+        },
+      ],
     },
   ],
 };

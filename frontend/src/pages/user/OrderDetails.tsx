@@ -19,8 +19,8 @@ export default function OrderDetails() {
 
   if (!isLoading && !isError) {
     content = (
-      <div className="p-4">
-        <h1 className="text-2xl font-semibold">
+      <div className="p-1 sm:p-4">
+        <h1 className="sm:text-2xl font-semibold">
           Order <span className="text-primary">#{order?._id}</span>
         </h1>
         <p className="text-xs text-neutral/70">
@@ -105,11 +105,5 @@ export default function OrderDetails() {
     );
   }
 
-  return (
-    <section className="py-5">
-      <div className="w-[90%] lg:w-[800px] mx-auto bg-base-100 rounded shadow-lg">
-        {content}
-      </div>
-    </section>
-  );
+  return <>{content}</>;
 }
