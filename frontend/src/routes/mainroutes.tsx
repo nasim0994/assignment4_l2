@@ -1,6 +1,7 @@
 import MainLayout from "@/layouts/MainLayout";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import UserLayout from "@/layouts/UserLayout";
+import AboutUs from "@/pages/main/AboutUs";
 import CartPage from "@/pages/main/CartPage";
 import Checkout from "@/pages/main/Checkout";
 import Home from "@/pages/main/Home";
@@ -34,6 +35,10 @@ export const mainRoutes = {
     {
       path: "/cart",
       element: <CartPage />,
+    },
+    {
+      path: "/about-us",
+      element: <AboutUs />,
     },
     {
       path: "/checkout",
