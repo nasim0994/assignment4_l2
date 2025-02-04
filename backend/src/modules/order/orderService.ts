@@ -1,6 +1,6 @@
 import { IOrder } from './orderInterface';
 import { Order } from './orderModel';
-import { CarModel } from '../car/carModel';
+import { Car } from '../car/carModel';
 import { User } from '../user/userModel';
 import { makePaymentAsync, verifyPaymentAsync } from './orderUtils';
 
@@ -11,7 +11,7 @@ export const createOrderService = async (
   // Calculate total price
   const totalPrice = await (data?.cars?.reduce(async (accPromise, carItem) => {
     const acc = await accPromise;
-    const car = await CarModel.findById(carItem?.car);
+    const car = await Car.findById(carItem?.car);
     if (!car) {
       throw new Error(`Car with ID ${carItem.car} not found.`);
     }
@@ -82,4 +82,16 @@ export const verifyPaymentService = async (id: string) => {
   }
 
   return verifiedPayment;
+};
+
+export const getMyOrdersService = async (userId: string) => {
+  const result = await Order.find({ user: userId })
+    .populate('user')
+    .populate('cars.car');
+  return result;
+};
+
+export const getOrderByIdService = async (id: string) => {
+  const result = await Order.findById(id).populate('user').populate('cars.car');
+  return result;
 };

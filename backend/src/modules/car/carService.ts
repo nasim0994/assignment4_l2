@@ -1,14 +1,14 @@
 import QueryBuilder from '../../builders/QueryBuilder';
 import { ICar } from './carInterface';
-import { CarModel } from './carModel';
+import { Car } from './carModel';
 
 export const createCarService = async (data: ICar) => {
-  const result = await CarModel.create(data);
+  const result = await Car.create(data);
   return result;
 };
 
 export const getAllCarService = async (query: Record<string, unknown>) => {
-  const carQuery = new QueryBuilder(CarModel.find(), query)
+  const carQuery = new QueryBuilder(Car.find(), query)
     .search(['name'])
     .filter()
     .sort()
@@ -25,7 +25,7 @@ export const getAllCarService = async (query: Record<string, unknown>) => {
 };
 
 export const getCarByIdService = async (id: string) => {
-  const result = await CarModel.findById(id);
+  const result = await Car.findById(id);
   return result;
 };
 
@@ -33,13 +33,13 @@ export const updateCarService = async (
   carId: string,
   updateData: Partial<ICar>,
 ) => {
-  const isExist = await CarModel.findById(carId);
+  const isExist = await Car.findById(carId);
 
   if (!isExist) {
     throw new Error('Car not found');
   }
 
-  const result = await CarModel.findByIdAndUpdate(
+  const result = await Car.findByIdAndUpdate(
     carId,
     {
       $set: updateData,
@@ -52,6 +52,6 @@ export const updateCarService = async (
 };
 
 export const deleteCarService = async (id: string) => {
-  const result = await CarModel.findByIdAndDelete(id);
+  const result = await Car.findByIdAndDelete(id);
   return result;
 };

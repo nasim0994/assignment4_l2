@@ -1,9 +1,15 @@
 import { useState } from "react";
-import SearchBox from "./SearchBox";
-import { NavLink } from "react-router-dom";
-import MobileCategoriesSidebar from "../MobileCategoriesSidebar/MobileCategoriesSidebar";
+import { Link, NavLink } from "react-router-dom";
 
-export default function MobileMenuSidebar({ mobileMenu, setMobileMenu }) {
+type MobileMenuSidebarProps = {
+  mobileMenu: boolean;
+  setMobileMenu: (value: boolean) => void;
+};
+
+export default function MobileMenuSidebar({
+  mobileMenu,
+  setMobileMenu,
+}: MobileMenuSidebarProps) {
   const [tab, setTab] = useState(2);
   return (
     <div className="lg:hidden">
@@ -12,14 +18,10 @@ export default function MobileMenuSidebar({ mobileMenu, setMobileMenu }) {
         className={`overlay ${mobileMenu && "overlay_show"}`}
       ></button>
       <div className={`menu_wrap ${mobileMenu && "menu_wrap_show"} text-sm`}>
-        <div className="m-2">
-          <SearchBox setMobileMenu={setMobileMenu} />
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 border-b pb-1">
+        <div className="mt-4 grid grid-cols-2 border-b pb-3">
           <button
             onClick={() => setTab(1)}
-            className={`${tab === 1 && "text-primary"}`}
+            className={`${tab === 1 && "text-primary"} border-r`}
           >
             Ganerel
           </button>
@@ -38,18 +40,33 @@ export default function MobileMenuSidebar({ mobileMenu, setMobileMenu }) {
                 <NavLink to="/">Home</NavLink>
               </li>
               <li>
-                <NavLink to="/shop">Shop</NavLink>
+                <NavLink to="/shop">All Products</NavLink>
               </li>
               <li>
                 <NavLink to="/about-us">About Us</NavLink>
               </li>
-              <li>
-                <NavLink to="/contact-us">Contact Us</NavLink>
-              </li>
             </ul>
           )}
 
-          {tab === 2 && <MobileCategoriesSidebar />}
+          {tab === 2 && (
+            <ul className="flex flex-col gap-2 px-4">
+              <li>
+                <Link to="/shop?category=Sedan"> Sedan </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=SUV"> SUV </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Truck"> Truck</Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Coupe"> Coupe</Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Convertible"> Convertible</Link>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { ICars, IOrder, IShippingInfo } from './orderInterface';
 const carSchema = new Schema<ICars>({
   car: {
     type: Schema.Types.ObjectId,
-    ref: 'CarModel',
+    ref: 'Car',
     required: true,
   },
   quantity: {

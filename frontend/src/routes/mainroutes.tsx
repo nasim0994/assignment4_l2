@@ -7,6 +7,8 @@ import Login from "@/pages/main/Login";
 import OrderPaymentVerify from "@/pages/main/OrderPaymentVerify";
 import ProductDetails from "@/pages/main/ProductDetails";
 import Shop from "@/pages/main/Shop";
+import MyOrders from "@/pages/user/MyOrders";
+import OrderDetails from "@/pages/user/OrderDetails";
 
 export const mainRoutes = {
   path: "/",
@@ -45,6 +47,22 @@ export const mainRoutes = {
       element: (
         <ProtectedRoute>
           <OrderPaymentVerify />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/user/my-orders",
+      element: (
+        <ProtectedRoute>
+          <MyOrders />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/user/my-order/:id",
+      element: (
+        <ProtectedRoute>
+          <OrderDetails />
         </ProtectedRoute>
       ),
     },

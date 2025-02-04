@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { BiLogOutCircle, BiUserCircle } from "react-icons/bi";
-import { FiShoppingCart, FiLogIn, FiMonitor } from "react-icons/fi";
+import { FiShoppingCart, FiLogIn } from "react-icons/fi";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { BsSearch } from "react-icons/bs";
@@ -101,23 +101,13 @@ export default function MainHeader() {
                     )}
 
                     <li>
-                      <Link
-                        to="/account/profile"
-                        className="flex w-full items-center gap-1 px-3 py-1.5 duration-200 hover:bg-gray-200"
-                      >
-                        <FiMonitor className="text-lg" />
-                        View Profile
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link
-                        to="/account/orders"
+                      <NavLink
+                        to="/user/my-orders"
                         className="flex w-full items-center gap-1 px-3 py-1.5 duration-200 hover:bg-gray-200"
                       >
                         <IoBagCheckOutline className="text-xl" />
                         My Order List
-                      </Link>
+                      </NavLink>
                     </li>
 
                     <li>

@@ -1,17 +1,18 @@
+import { FaRegUser } from "react-icons/fa";
+import { BiStore } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FiHome } from "react-icons/fi";
+import { FiHome, FiShoppingCart } from "react-icons/fi";
 import { AiOutlineMenu } from "react-icons/ai";
-import { RiShoppingCartLine } from "react-icons/ri";
-import { FaRegCircleUser } from "react-icons/fa6";
-import { CiShop } from "react-icons/ci";
 import MobileMenuSidebar from "../MobileMenuSidebar";
 
 export default function MobileBottomHeader() {
   const [mobileMenu, setMobileMenu] = useState(false);
+
   useEffect(() => {
     window.addEventListener("click", (e) => {
-      if (e.target.closest(".menu_wrap ul li a")) {
+      const target = e.target as HTMLElement;
+      if (target.closest(".menu_wrap ul li a")) {
         setMobileMenu(false);
       }
     });
@@ -41,7 +42,7 @@ export default function MobileBottomHeader() {
             to="/shop"
             className="flex flex-col items-center justify-center gap-1"
           >
-            <CiShop className="text-xl" />
+            <BiStore className="text-xl" />
             <p className="text-xs">Shop</p>
           </NavLink>
 
@@ -50,7 +51,7 @@ export default function MobileBottomHeader() {
             className="flex flex-col items-center justify-center gap-1"
           >
             <div className="relative">
-              <RiShoppingCartLine className="text-lg" />
+              <FiShoppingCart className="text-lg" />
               <div className="absolute -right-2 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary font-bold text-base-100">
                 <span className="mt-px text-xs">0</span>
               </div>
@@ -59,10 +60,10 @@ export default function MobileBottomHeader() {
           </NavLink>
 
           <NavLink
-            to="/account"
+            to="/user"
             className="flex flex-col items-center justify-center gap-1"
           >
-            <FaRegCircleUser className="text-lg" />
+            <FaRegUser className="text-lg" />
             <p className="text-xs">Account</p>
           </NavLink>
         </div>

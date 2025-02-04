@@ -47,4 +47,4 @@ const carSchema = new Schema<ICar>(
   },
 );
 
-export const CarModel = model<ICar>('car', carSchema);
+export const Car = model<ICar>('Car', carSchema);
