@@ -27,9 +27,9 @@ export default function Shop() {
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get("category");
 
-  const STEP = 1000;
+  const STEP = 10000;
   const MIN = 0;
-  const MAX = 1000000;
+  const MAX = 10000000;
   const [values, setValues] = useState([MIN, MAX]);
 
   const query: IQuery = {};
@@ -40,8 +40,6 @@ export default function Shop() {
   query["sortOrder"] = sort;
   if (category) query["category"] = category;
   query["range"] = JSON.stringify(values);
-
-  console.log(query);
 
   const { data, isLoading, isFetching, isError } = useGetAllCarsQuery(query);
   const cars: ICar[] = data?.data;
