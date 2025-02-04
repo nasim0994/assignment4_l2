@@ -15,7 +15,7 @@ export default function ChooseByCategory() {
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 text-center">
-          <Link to={`/shop/Sedan`} className="feature_category_card">
+          <Link to={`/shop?category=Sedan`} className="feature_category_card">
             <div>
               <img
                 src="/images/categories/Sedan.png"
@@ -26,7 +26,7 @@ export default function ChooseByCategory() {
               <h6 className="mt-3 md:text-[15px]">Sedan</h6>
             </div>
           </Link>
-          <Link to={`/shop/SUV`} className="feature_category_card">
+          <Link to={`/shop?category=SUV`} className="feature_category_card">
             <div>
               <img
                 src="/images/categories/SUV.png"
@@ -37,7 +37,7 @@ export default function ChooseByCategory() {
               <h6 className="mt-3 md:text-[15px]">SUV</h6>
             </div>
           </Link>
-          <Link to={`/shop/Truck`} className="feature_category_card">
+          <Link to={`/shop?category=Truck`} className="feature_category_card">
             <div>
               <img
                 src="/images/categories/truck.png"
@@ -48,7 +48,7 @@ export default function ChooseByCategory() {
               <h6 className="mt-3 md:text-[15px]">Truck</h6>
             </div>
           </Link>
-          <Link to={`/shop/Coupe`} className="feature_category_card">
+          <Link to={`/shop?category=Coupe`} className="feature_category_card">
             <div>
               <img
                 src="/images/categories/Coupe.png"
@@ -59,7 +59,10 @@ export default function ChooseByCategory() {
               <h6 className="mt-3 md:text-[15px]">Coupe</h6>
             </div>
           </Link>
-          <Link to={`/shop/Convertible`} className="feature_category_card">
+          <Link
+            to={`/shop?category=Convertible`}
+            className="feature_category_card"
+          >
             <div>
               <img
                 src="/images/categories/Convertible.png"
@@ -70,7 +73,10 @@ export default function ChooseByCategory() {
               <h6 className="mt-3 md:text-[15px]">Convertible</h6>
             </div>
           </Link>
-          <Link to={`/shop/Hatchback`} className="feature_category_card">
+          <Link
+            to={`/shop?category=Hatchback`}
+            className="feature_category_card"
+          >
             <div>
               <img
                 src="/images/categories/Hatchback.png"

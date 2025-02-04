@@ -9,13 +9,13 @@ export default function SearchBox({ setSearch, setMobileMenu }) {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchText) {
-      navigate(`/shops?search=${searchText}`);
+      navigate(`/shop?search=${searchText}`);
 
       if (setSearch) {
         setSearch(false);
       }
     } else {
-      navigate(`/shops`);
+      navigate(`/shop`);
     }
 
     if (setMobileMenu) {

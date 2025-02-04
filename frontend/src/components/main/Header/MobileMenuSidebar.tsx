@@ -38,7 +38,7 @@ export default function MobileMenuSidebar({ mobileMenu, setMobileMenu }) {
                 <NavLink to="/">Home</NavLink>
               </li>
               <li>
-                <NavLink to="/shops">Shop</NavLink>
+                <NavLink to="/shop">Shop</NavLink>
               </li>
               <li>
                 <NavLink to="/about-us">About Us</NavLink>

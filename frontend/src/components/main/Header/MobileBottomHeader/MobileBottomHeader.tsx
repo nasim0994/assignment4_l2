@@ -38,7 +38,7 @@ export default function MobileBottomHeader() {
           </button>
 
           <NavLink
-            to="/shops"
+            to="/shop"
             className="flex flex-col items-center justify-center gap-1"
           >
             <CiShop className="text-xl" />

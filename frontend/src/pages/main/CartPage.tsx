@@ -49,7 +49,7 @@ export default function CartPage() {
               </div>
               <div className="flex items-center gap-4 p-3 text-sm">
                 <Link
-                  to="/shops"
+                  to="/shop"
                   className="primary_btn flex items-center gap-2"
                 >
                   <FaArrowRight className="-rotate-180" /> Continue to shopping
@@ -92,7 +92,7 @@ export default function CartPage() {
             <MdOutlineRemoveShoppingCart className="text-6xl text-primary" />
             <h2 className="text-xl">Your cart is Empty</h2>
             <Link
-              to="/shops"
+              to="/shop"
               className="rounded bg-primary px-6 py-2 text-sm text-base-100"
             >
               Continue to shopping
