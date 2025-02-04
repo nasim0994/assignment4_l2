@@ -1,24 +1,30 @@
+import { Types } from 'mongoose';
+
 export type ICars = {
-  car: string;
+  car: Types.ObjectId;
   quantity: number;
 };
 
 export type IShippingInfo = {
   address: string;
-  city: string;
   note?: string;
-};
-
-export type IPayment = {
-  method: string;
-  transactionId?: string;
+  phone: string;
+  charge: number;
 };
 
 export type IOrder = {
-  user: string;
+  user: Types.ObjectId;
   cars: ICars[];
   totalPrice: number;
   shippingInfo: IShippingInfo;
   status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
-  payment: IPayment;
+  transaction: {
+    id: string;
+    transactionStatus: string;
+    bank_status: string;
+    sp_code: string;
+    sp_message: string;
+    method: string;
+    date_time: string;
+  };
 };

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useAppSelector } from "@/redux/hook/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hook/hooks";
 import toast from "react-hot-toast";
+import { useAddOrderMutation } from "@/redux/features/orderApi";
+import { clearCartAfterOrder } from "@/redux/features/cart/cartSlice";
 
 type OrderProduct = {
-  productId: string;
+  car: string;
   quantity: number;
 };
 
@@ -12,10 +14,11 @@ export default function Checkout() {
   const { carts } = useAppSelector((state) => state.cart);
   const { loggedUser } = useAppSelector((state) => state.auth);
   const [shipping, setShipping] = useState(0);
+  const dispatch = useAppDispatch();
 
-  // const [addOrder, { isLoading }] = useAddOrderMutation();
+  const [addOrder, { isLoading }] = useAddOrderMutation();
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [paymentMethod, setPaymentMethod] = useState("shurjopay");
 
   // Subtotal - discount amount
   const subTotal = carts?.reduce(
@@ -32,37 +35,37 @@ export default function Checkout() {
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    const name = formData.get("name");
-    const number = formData.get("number");
-    const email = formData.get("email");
-    const address = formData.get("fullAdress");
+    const address = formData.get("fullAddress");
     const note = formData.get("note");
+    const phone = formData.get("number");
 
     const products: OrderProduct[] = [];
-    carts.map((car) =>
+    carts?.map((car) =>
       products.push({
-        productId: car._id,
-        quantity: car.quantity,
+        car: car?._id,
+        quantity: car?.quantity,
       })
     );
 
     const order = {
-      user: {
-        name,
-        email,
-        phone: number,
-      },
+      user: loggedUser?._id,
       shippingInfo: {
         address,
         note,
+        phone,
+        charge: shipping,
       },
       paymentMethod,
-      products,
-      totalPrice: grandTotal,
-      shippingCharge: shipping,
+      cars: products,
     };
 
-    console.log(order);
+    const res = await addOrder(order);
+
+    if (res?.data?.success) {
+      toast.success(res?.data?.message || "Order placed successfully");
+      dispatch(clearCartAfterOrder());
+      window.location.href = res?.data?.data;
+    }
   };
 
   return (
@@ -113,9 +116,9 @@ export default function Checkout() {
               <div className="mt-2 text-sm">
                 <h3>Full Adress</h3>
                 <textarea
-                  name="fullAdress"
+                  name="fullAddress"
                   rows={3}
-                  placeholder="House number and fullAdress name"
+                  placeholder="House number and fullAddress name"
                   className="mt-2 w-full rounded border-2 p-2 outline-none"
                   required
                 ></textarea>
@@ -142,20 +145,16 @@ export default function Checkout() {
                 <li className="flex items-center justify-between">
                   <div className="flex items-center">
                     <input
-                      id="ssl"
+                      id="shurjopay"
                       type="radio"
                       name="payment_method"
                       className="w-3 h-3 cursor-pointer"
-                      checked={paymentMethod === "ssl" && true}
-                      onClick={() => setPaymentMethod("ssl")}
+                      checked={paymentMethod === "shurjopay" && true}
+                      onClick={() => setPaymentMethod("shurjopay")}
                     />
-                    <label htmlFor="ssl" className="ms-2 cursor-pointer">
-                      SSL
+                    <label htmlFor="shurjopay" className="ms-2 cursor-pointer">
+                      shurjo pay
                     </label>
-                  </div>
-
-                  <div>
-                    <img src="/images/ssl.png" alt="" className="h-4" />
                   </div>
                 </li>
               </ul>
@@ -207,7 +206,7 @@ export default function Checkout() {
               type="submit"
               className="flex w-full justify-center rounded bg-primary py-2 text-base-100 shadow"
             >
-              {/* {isLoading ? <ButtonSpinner /> : "PLACE ORDER"} */}
+              {isLoading ? "Loading..." : "PAYMENT NOW"}
             </button>
           </div>
         </form>

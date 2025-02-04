@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ICars, IOrder, IPayment, IShippingInfo } from './orderInterface';
+import { ICars, IOrder, IShippingInfo } from './orderInterface';
 
 // Car Schema
 const carSchema = new Schema<ICars>({
@@ -21,25 +21,17 @@ const shippingInfoSchema = new Schema<IShippingInfo>({
     type: String,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
-  },
   note: {
     type: String,
     default: '',
   },
-});
-
-// Payment Schema
-const paymentSchema = new Schema<IPayment>({
-  method: {
+  phone: {
     type: String,
     required: true,
   },
-  transactionId: {
-    type: String,
-    default: null,
+  charge: {
+    type: Number,
+    required: true,
   },
 });
 
@@ -68,9 +60,28 @@ const orderSchema = new Schema<IOrder>(
       enum: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'],
       default: 'pending',
     },
-    payment: {
-      type: paymentSchema,
-      required: true,
+    transaction: {
+      id: {
+        type: String,
+      },
+      transactionStatus: {
+        type: String,
+      },
+      bank_status: {
+        type: String,
+      },
+      sp_code: {
+        type: String,
+      },
+      sp_message: {
+        type: String,
+      },
+      method: {
+        type: String,
+      },
+      date_time: {
+        type: String,
+      },
     },
   },
   { timestamps: true },

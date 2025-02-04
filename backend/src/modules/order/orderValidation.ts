@@ -7,13 +7,9 @@ export const carValidation = z.object({
 
 export const shippingInfoValidation = z.object({
   address: z.string().nonempty({ message: 'Address is required' }),
-  city: z.string().nonempty({ message: 'City is required' }),
+  phone: z.string().nonempty({ message: 'Phone is required' }),
   note: z.string().optional(),
-});
-
-export const paymentValidation = z.object({
-  method: z.string().nonempty({ message: 'Payment method is required' }),
-  transactionId: z.string().optional(),
+  charge: z.number().min(1, { message: 'Shipping Charge is required' }),
 });
 
 export const orderValidation = z.object({
@@ -21,10 +17,5 @@ export const orderValidation = z.object({
   cars: z
     .array(carValidation)
     .nonempty({ message: 'Cars array cannot be empty' }),
-  totalPrice: z
-    .number()
-    .min(0, { message: 'Total price must be 0 or greater' }),
   shippingInfo: shippingInfoValidation,
-  status: z.enum(['pending', 'paid', 'shipped', 'delivered', 'cancelled']),
-  payment: paymentValidation,
 });

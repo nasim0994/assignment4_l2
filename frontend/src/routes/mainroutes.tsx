@@ -4,6 +4,7 @@ import CartPage from "@/pages/main/CartPage";
 import Checkout from "@/pages/main/Checkout";
 import Home from "@/pages/main/Home";
 import Login from "@/pages/main/Login";
+import OrderPaymentVerify from "@/pages/main/OrderPaymentVerify";
 import ProductDetails from "@/pages/main/ProductDetails";
 import Shop from "@/pages/main/Shop";
 
@@ -36,6 +37,14 @@ export const mainRoutes = {
       element: (
         <ProtectedRoute>
           <Checkout />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/order/payment/verify",
+      element: (
+        <ProtectedRoute>
+          <OrderPaymentVerify />
         </ProtectedRoute>
       ),
     },
