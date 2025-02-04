@@ -3,6 +3,7 @@ import { Order } from './orderModel';
 import { Car } from '../car/carModel';
 import { User } from '../user/userModel';
 import { makePaymentAsync, verifyPaymentAsync } from './orderUtils';
+import QueryBuilder from '../../builders/QueryBuilder';
 
 export const createOrderService = async (
   data: Partial<IOrder>,
@@ -93,5 +94,34 @@ export const getMyOrdersService = async (userId: string) => {
 
 export const getOrderByIdService = async (id: string) => {
   const result = await Order.findById(id).populate('user').populate('cars.car');
+  return result;
+};
+
+export const getAllOrdersService = async (query: Record<string, unknown>) => {
+  const orderQuery = new QueryBuilder(
+    Order.find().populate('user').populate('cars.car'),
+    query,
+  )
+    .search([''])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const meta = await orderQuery.countTotal();
+  const data = await orderQuery.modelQuery;
+
+  return {
+    meta,
+    data,
+  };
+};
+
+export const updateOrderStatusService = async (id: string, status: string) => {
+  const result = await Order.findByIdAndUpdate(id, { status }, { new: true });
+  return result;
+};
+
+export const deleteOrderService = async (id: string) => {
+  const result = await Order.findByIdAndDelete(id);
   return result;
 };

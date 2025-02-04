@@ -50,7 +50,7 @@ export default function AdminHeader({ setSidebar }: AdminHeaderProps) {
             className="d_btn flex items-center gap-1"
           >
             <FaRegUserCircle className="text-lg" />
-            {loggedUser?.email}
+            {loggedUser?.name}
           </button>
 
           {dropdown && (

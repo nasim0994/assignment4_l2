@@ -20,7 +20,7 @@ const adminSidebarItems: ISidebarItem[] = [
   {
     icon: <BsCart4 />,
     title: "Orders",
-    path: "/admin/orders",
+    path: "/admin/order/all",
   },
 ];
 
