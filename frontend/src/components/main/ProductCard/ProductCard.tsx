@@ -5,7 +5,7 @@ export default function ProductCard({ car }: IProductCardProps) {
   return (
     <div className="group relative flex h-full flex-col items-center justify-between gap-1 rounded-xl bg-base-100 px-2 py-4 text-center shadow-lg duration-300">
       <Link
-        to="/product/1"
+        to={`/product/${car?._id}`}
         className="flex w-full flex-col items-center justify-between"
       >
         <figure className="group relative h-[185px] w-[90%">

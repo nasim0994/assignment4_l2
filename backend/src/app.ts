@@ -10,7 +10,6 @@ import cookieParser from 'cookie-parser';
 const app: Application = express();
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(
   cors({

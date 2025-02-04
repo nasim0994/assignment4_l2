@@ -12,6 +12,7 @@ export default function MainHeader() {
   const [searchSidebar, setSearchSidebar] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const { loggedUser } = useAppSelector((state) => state.auth);
+  const { carts } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function MainHeader() {
               </i>
 
               <div>
-                <h2 className="text-sm">Cart(0)</h2>
+                <h2 className="text-sm">Cart({carts?.length})</h2>
                 <p className="-mt-1 whitespace-nowrap text-[11px]">Add Items</p>
               </div>
             </Link>

@@ -42,6 +42,8 @@ export const loginUserService = async (payload: ILoginUser) => {
   const jwtPayload = {
     email: user?.email,
     role: user?.role,
+    name: user?.name,
+    _id: user?._id,
   };
 
   const accessToken = createToken(
@@ -85,6 +87,8 @@ export const refreshTokenService = async (token: string) => {
   const jwtPayload = {
     email: user.id,
     role: user.role,
+    name: user.name,
+    _id: user.id,
   };
 
   const accessToken = createToken(
