@@ -3,6 +3,7 @@ import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Checkout from "@/pages/main/Checkout";
 import Home from "@/pages/main/Home";
 import Login from "@/pages/main/Login";
+import ProductDetails from "@/pages/main/ProductDetails";
 
 export const mainRoutes = {
   path: "/",
@@ -15,6 +16,10 @@ export const mainRoutes = {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/product/:id",
+      element: <ProductDetails />,
     },
     {
       path: "/checkout",

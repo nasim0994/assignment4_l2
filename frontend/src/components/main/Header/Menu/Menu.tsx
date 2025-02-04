@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Menu() {
   return (
@@ -6,9 +6,6 @@ export default function Menu() {
       <div className="container">
         <nav className="header_menu">
           <ul>
-            <li>
-              <NavLink to="/shop"> All Products </NavLink>
-            </li>
             <li>
               <Link to="/shop?category=Sedan"> Sedan </Link>
             </li>
